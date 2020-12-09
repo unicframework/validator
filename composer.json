@@ -1,0 +1,25 @@
+{
+    "name": "unic-framework/validator",
+    "type": "library",
+    "description": "Validator is a html form-data/user-data and json data validation library for PHP.",
+    "keywords": [
+        "validator",
+        "from validator",
+        "form validation",
+        "data validation"
+    ],
+    "homepage": "https://unic-framework.github.io/validator",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rajkumar Dusad",
+            "homepage": "https://github.com/rajkumardusad",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.6"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
