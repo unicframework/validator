@@ -19,7 +19,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "unic-framework\\validator\\": "src/"
+            "validator\\": "src/"
         }
     },
     "require": {
