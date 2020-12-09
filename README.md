@@ -4,7 +4,7 @@
 
 ### Installation
 
-  - Install composer if you have not installed.
+  - Install `composer` if you have not installed.
 
 ```shell
 composer require unic-framework/validator
