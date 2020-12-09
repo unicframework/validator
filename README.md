@@ -2,11 +2,23 @@
 
   Validator is a html form-data/user-data and json data validation library for PHP.
 
+### Installation
+
+  - Install composer if you have not installed.
+
+```shell
+composer require unic-framework/validator
+```
+
 ### Example
 
 ```php
+use validator;
+
+$validator = new validator();
+
 //Set validation rules
-$this->validator->rules([
+$validator->rules([
   'name' => [
     'required' => true,
     'string' => true
@@ -28,11 +40,11 @@ $this->validator->rules([
 ]);
 
 //Validate form data
-if($this->validator->validate($this->request->post)) {
+if($validator->validate($this->request->post)) {
   //Ok
 } else {
   //Display validation errors
-  print_r($this->validator->errors();
+  print_r($validator->errors();
 }
 ```
 
@@ -62,7 +74,7 @@ if($this->validator->validate($this->request->post)) {
 
 ```php
 //Set validation rules
-$this->validator->rules([
+$validator->rules([
   'name' => [
     'required' => true,
     'string' => true
@@ -95,7 +107,7 @@ $this->validator->rules([
 
 ```php
 //Set error messages
-$this->validator->messages([
+$validator->messages([
   'name' => [
     'required' => 'Please enter your name.',
     'string' => 'Your name should be in string.'
