@@ -1,6 +1,6 @@
 <?php
 
-namespace validator;
+namespace unic\validator;
 
 /**
 * Validator Library
