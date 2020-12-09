@@ -1,4 +1,7 @@
 <?php
+
+namespace unic-framework\validator;
+
 /**
 * Validator Library
 * Validator library validates users data and form data, json data.
