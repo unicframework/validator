@@ -1,5 +1,5 @@
 {
-    "name": "unic-framework/validator",
+    "name": "unicframework/validator",
     "type": "library",
     "description": "Validator is a html form-data/user-data and json data validation library for PHP.",
     "keywords": [
@@ -8,7 +8,7 @@
         "form validation",
         "data validation"
     ],
-    "homepage": "https://unic-framework.github.io/validator",
+    "homepage": "https://unicframework.github.io/validator",
     "license": "MIT",
     "authors": [
         {
@@ -19,7 +19,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "unic-framework\\validator\\": "src/"
+            "unicframework\\validator\\": "src/"
         }
     },
     "require": {
