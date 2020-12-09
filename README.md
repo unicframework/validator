@@ -7,13 +7,13 @@
   - Install `composer` if you have not installed.
 
 ```shell
-composer require unic-framework/validator
+composer require unicframework/validator
 ```
 
 ### Example
 
 ```php
-use validator;
+use unicframework\validator\validator;
 
 $validator = new validator();
 
