@@ -1,7 +1,4 @@
 <?php
-
-namespace unicframework\validator;
-
 /**
 * Validator Library
 * Validator library validates users data and form data, json data.
@@ -9,8 +6,10 @@ namespace unicframework\validator;
 * @package : Validator Library
 * @category : Library
 * @author : Unic Framework
-* @link : https://github.com/unic-framework/unic
+* @link : https://github.com/unicframework/unic
 */
+
+namespace unicframework\validator;
 
 class validator {
   /**
