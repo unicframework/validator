@@ -9,8 +9,6 @@
 * @link : https://github.com/unic-framework/unic
 */
 
-defined('SYSPATH') OR exit('No direct access allowed');
-
 class validator {
   /**
   * Store validation errors
