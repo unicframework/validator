@@ -9,7 +9,7 @@
 * @link : https://github.com/unicframework/unic
 */
 
-namespace unicframework\validator;
+namespace validator;
 
 class validator {
   /**
