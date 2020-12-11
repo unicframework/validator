@@ -13,7 +13,7 @@ composer require unicframework/validator
 ### Example
 
 ```php
-use unicframework\validator\validator;
+use validator\validator;
 
 $validator = new validator();
 
