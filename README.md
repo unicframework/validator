@@ -42,6 +42,7 @@ $validator->rules([
     'minlength' => 6,
     'maxlength' => 15,
     'callback' => function() {
+      //Encrypt password
       $_POST['password'] = base64_encode($_POST['password']);
     }
   ]
