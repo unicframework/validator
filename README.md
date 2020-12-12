@@ -26,22 +26,30 @@ $validator->rules([
   'gender' => [
     'required' => true,
     'string' => true,
+    'lowercase' => true,
     'in' => ['male', 'female', 'other']
   ],
   'email' => [
     'required' => true,
-    'email' => true
+    'email' => true,
+    'callback' => function() {
+      //Convert email to lowercase
+      $_POST['email'] = strtolower($_POST['email']);
+    }
   ],
   'password' => [
     'required' => true,
     'minlength' => 6,
-    'maxlength' => 15
+    'maxlength' => 15,
+    'callback' => function() {
+      $_POST['password'] = base64_encode($_POST['password']);
+    }
   ]
 ]);
 
 //Validate form data
-if($validator->validate($this->request->post)) {
-  //Ok
+if($validator->validate($_POST)) {
+  //Ok data is valid
 } else {
   //Display validation errors
   print_r($validator->errors();
