@@ -1,7 +1,7 @@
 <?php
 /**
 * Validator Library
-* Validator library validates users data, html form-data and json-data.
+* Validator library validates users data and form data, json data.
 *
 * @package : Validator Library
 * @category : Library
@@ -9,7 +9,7 @@
 * @link : https://github.com/unicframework/unic
 */
 
-namespace validator;
+defined('SYSPATH') OR exit('No direct access allowed');
 
 class validator {
   /**
@@ -72,6 +72,8 @@ class validator {
       'json',
       'minlength',
       'maxlength',
+      'min',
+      'max',
       'email',
       'file',
       'file_mime_type',
@@ -233,6 +235,8 @@ class validator {
       ],
       'minlength' => $data_key.' minimum length should be at least '.(isset($rules['minlength']) ? $rules['minlength'] : '').' characters.',
       'maxlength' => $data_key.' maximum length should be '.(isset($rules['maxlength']) ? $rules['maxlength'] : '').' characters.',
+      'min' => $data_key.' minimum value should be at least '.(isset($rules['min']) ? $rules['min'] : ''),
+      'max' => $data_key.' maximum value should be '.(isset($rules['max']) ? $rules['max'] : ''),
       'email' => [
         'true' => 'Please enter valid email address.',
         'false' => $data_key.' should not be email address.'
@@ -571,6 +575,40 @@ class validator {
   private function validate_maxlength(array $data, string $data_key, array $rules) : bool {
     if((isset($data[$data_key]) && !is_string($data[$data_key])) || (isset($data[$data_key]) && !empty($data[$data_key]) && !(strlen($data[$data_key]) <= $rules['maxlength']))) {
       $this->set_error($data_key, $rules, 'maxlength');
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  /**
+  * Validate min fields.
+  *
+  * @param array $data
+  * @param string $data_key
+  * @param array $rules
+  * @return boolean
+  */
+  private function validate_min(array $data, string $data_key, array $rules) : bool {
+    if(isset($data[$data_key]) && !empty($data[$data_key]) && is_numeric($data[$data_key]) && !($data[$data_key] >= $rules['min'])) {
+      $this->set_error($data_key, $rules, 'min');
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  /**
+  * Validate max fields.
+  *
+  * @param array $data
+  * @param string $data_key
+  * @param array $rules
+  * @return boolean
+  */
+  private function validate_max(array $data, string $data_key, array $rules) : bool {
+    if(isset($data[$data_key]) && !empty($data[$data_key]) && is_numeric($data[$data_key]) && !($data[$data_key] <= $rules['max'])) {
+      $this->set_error($data_key, $rules, 'max');
       return false;
     } else {
       return true;
