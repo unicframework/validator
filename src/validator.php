@@ -1,7 +1,7 @@
 <?php
 /**
 * Validator Library
-* Validator library validates users data and form data, json data.
+* Validator library validates html form-data, users data and json data.
 *
 * @package : Validator Library
 * @category : Library
@@ -9,7 +9,7 @@
 * @link : https://github.com/unicframework/unic
 */
 
-defined('SYSPATH') OR exit('No direct access allowed');
+namespace validator;
 
 class validator {
   /**
