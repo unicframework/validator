@@ -35,7 +35,12 @@ $validator->rules([
     'callback' => function() {
       //Convert email to lowercase
       $_POST['email'] = strtolower($_POST['email']);
-    }
+    },
+    'rules' => [
+      //Set your own custom rules
+      'available' => is_available($_POST['email']),
+      'active' => is_active($_POST['email'])
+    ]
   ],
   'password' => [
     'required' => true,
@@ -90,10 +95,8 @@ if($validator->validate($_POST)) {
 | not_in         | array    | match data in given array. |
 | equal          | mixed    | it will match data with given data. |
 | not_equal      | mixed    | it will match data with given data. |
-| is_true        | boolean  | is_true is used to validate true values. it will throw an error when it will find true value. |
-| is_false       | boolean  | is_false is used to validate false values. it will throw an error when it will find false value. |
 | callback       | function | pass callback function. callback function is called during validation of field. |
-
+| rules          | array    | set custom rules. custom rules are set of key value pairs. if any key has false value then it will throw an error. |
 
   We can set rules for data validation.
 
@@ -116,6 +119,11 @@ $validator->rules([
       //Convert email to lowercase
       $_POST['email'] = strtolower($_POST['email']);
     }
+    'rules' => [
+      //Set your own custom rules
+      'available' => is_available($_POST['email']),
+      'active' => is_active($_POST['email'])
+    ]
   ],
   'password' => [
     'required' => true,
@@ -147,7 +155,11 @@ $validator->messages([
   ],
   'email' => [
     'required' => 'Please enter email address.',
-    'email' => 'Please enter valid email address.'
+    'email' => 'Please enter valid email address.',
+    'rules' => [
+      'available' => 'Email is already registered.',
+      'active' => 'Your account has been blocked.'
+    ]
   ]
 ]);
 ```
