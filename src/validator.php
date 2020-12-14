@@ -9,7 +9,7 @@
 * @link : https://github.com/unicframework/unic
 */
 
-defined('SYSPATH') OR exit('No direct access allowed');
+namespace validator;
 
 class validator {
   /**
