@@ -39,7 +39,7 @@ $validator->rules([
     'rules' => [
       //Set your own custom rules
       'available' => is_available($_POST['email']),
-      'active' => is_active($_POST['email'])
+      'blocked' => !is_blocked($_POST['email'])
     ]
   ],
   'password' => [
@@ -122,7 +122,7 @@ $validator->rules([
     'rules' => [
       //Set your own custom rules
       'available' => is_available($_POST['email']),
-      'active' => is_active($_POST['email'])
+      'blocked' => !is_blocked($_POST['email'])
     ]
   ],
   'password' => [
@@ -158,7 +158,7 @@ $validator->messages([
     'email' => 'Please enter valid email address.',
     'rules' => [
       'available' => 'Email is already registered.',
-      'active' => 'Your account has been blocked.'
+      'blocked' => 'Your account has been blocked.'
     ]
   ]
 ]);
