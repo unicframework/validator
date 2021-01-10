@@ -67,7 +67,7 @@ if($validator->validate($_POST)) {
 
   We can validate custom data like objects, json, arrays etc.
 
-  #### Validate single of data :
+  #### Validate single data :
 
 ```php
 use Validator\Validator;
