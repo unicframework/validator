@@ -113,9 +113,14 @@ class Validator {
             //Validate multiple data
             if($multiple_data === true) {
               foreach($data as $single_data) {
-                if($this->$func($single_data, $data_key, $rules) === false) {
-                  $is_valid = false;
-                  break;
+                if(is_array($single_data)) {
+                  if($this->$func($single_data, $data_key, $rules) === false) {
+                    $is_valid = false;
+                    break;
+                  }
+                } else {
+                  $this->errors['error'] = 'Invalid data for validation';
+                  return false;
                 }
               }
             } else {
