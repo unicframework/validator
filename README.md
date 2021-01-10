@@ -1,6 +1,6 @@
 ## Validator
 
-  Validator is a html form-data/user-data and json data validation library for PHP.
+  Validator is a data validation library for PHP. We can validate html form-data, objects, arrays and json etc.
 
 ### Installation
 
@@ -10,12 +10,12 @@
 composer require unicframework/validator
 ```
 
-### Example
+### Validate HTML form-data
 
 ```php
-use validator\validator;
+use Validator\Validator;
 
-$validator = new validator();
+$validator = new Validator();
 
 //Set validation rules
 $validator->rules([
@@ -62,6 +62,103 @@ if($validator->validate($_POST)) {
 }
 ```
 
+
+### Validate Custom Data
+
+  We can validate custom data like objects, json, arrays etc.
+
+  #### Validate single of data :
+
+```php
+use Validator\Validator;
+
+$validator = new Validator();
+
+//Data for validation
+//We can validate any data like arrays, objects, and json etc.
+$data = [
+  'name' => 'abc xyz',
+  'gender' => 'male',
+  'email' => 'abc@gmail.com'
+];
+
+//Set validation rules
+$validator->rules([
+  'name' => [
+    'required' => true,
+    'string' => true
+  ],
+  'gender' => [
+    'required' => true,
+    'string' => true,
+    'lowercase' => true,
+    'in' => ['male', 'female', 'other']
+  ],
+  'email' => [
+    'required' => true,
+    'email' => true
+  ]
+]);
+
+//Validate custom data
+if($validator->validate($data)) {
+  //Ok data is valid
+} else {
+  //Display validation errors
+  print_r($validator->errors();
+}
+```
+
+  #### Validate multiple sets of data :
+
+```php
+use Validator\Validator;
+
+$validator = new Validator();
+
+//Data for validation
+//We can validate any data like arrays, objects, and json etc.
+$data = [
+  [
+    'name' => 'abc xyz',
+    'gender' => 'male',
+    'email' => 'abc@gmail.com'
+  ],
+  [
+    'name' => 'xyz abc',
+    'gender' => 'male',
+    'email' => 'xyz@gmail.com'
+  ]
+];
+
+//Set validation rules
+$validator->rules([
+  'name' => [
+    'required' => true,
+    'string' => true
+  ],
+  'gender' => [
+    'required' => true,
+    'string' => true,
+    'lowercase' => true,
+    'in' => ['male', 'female', 'other']
+  ],
+  'email' => [
+    'required' => true,
+    'email' => true,
+  ]
+]);
+
+//Validate custom data
+if($validator->validate($data, true)) {
+  //Ok data is valid
+} else {
+  //Display validation errors
+  print_r($validator->errors();
+}
+```
+
+
 ### Set validation rules
 
   Validator has a lots of predefined validation rules.
@@ -98,7 +195,7 @@ if($validator->validate($_POST)) {
 | callback       | function | pass callback function. callback function is called during validation of field. |
 | rules          | array    | set custom rules. custom rules are set of key value pairs. if any key has false value then it will throw an error. |
 
-  We can set rules for data validation.
+  We can set predefined/custom rules for data validation.
 
 ```php
 //Set validation rules
