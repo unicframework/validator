@@ -9,9 +9,9 @@
 * @link : https://github.com/unicframework/unic
 */
 
-namespace validator;
+namespace Validator;
 
-class validator {
+class Validator {
   /**
   * Store validation errors
   *
@@ -83,13 +83,14 @@ class validator {
   }
 
   /**
-  * Validate
+  * validate
   * Validate users data.
   *
   * @param mixed $data
+  * @param boolean $multiple_data
   * @return boolean
   */
-  public function validate($data) : bool {
+  public function validate($data, $multiple_data=false) : bool {
     $is_valid = true;
 
     //Convert users data type to array
@@ -103,16 +104,25 @@ class validator {
     }
 
     //Validate users data
-    foreach($this->rules as $key => $value) {
-      if(is_array($value)) {
-        $rules = $value;
+    foreach($this->rules as $data_key => $rules) {
+      if(is_array($rules)) {
         foreach($rules as $rule => $value) {
           $rule = strtolower($rule);
           if(in_array($rule, $this->predefined_rules)) {
             $func = "validate_".$rule;
-            if($this->$func($data, $key, $rules) === false) {
-              $is_valid = false;
-              break;
+            //Validate multiple data
+            if($multiple_data === true) {
+              foreach($data as $single_data) {
+                if($this->$func($single_data, $data_key, $rules) === false) {
+                  $is_valid = false;
+                  break;
+                }
+              }
+            } else {
+              if($this->$func($data, $data_key, $rules) === false) {
+                $is_valid = false;
+                break;
+              }
             }
           } else {
             $this->errors['error'] = 'Invalid rules for validation';
