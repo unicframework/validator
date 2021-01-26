@@ -904,7 +904,17 @@ class Validator {
     if(isset($data[$data_key]) && !empty($data[$data_key])) {
       if(is_array($rules['rules'])) {
         foreach($rules['rules'] as $custom_rule => $value) {
-          if($value !== true) {
+          if(is_callable($value)) {
+            if($value() !== true) {
+              $this->set_error($data_key, $rules, 'rules', $custom_rule);
+              $is_valid = false;
+            }
+          } else if(function_exists($value)) {
+            if($value() !== true) {
+              $this->set_error($data_key, $rules, 'rules', $custom_rule);
+              $is_valid = false;
+            }
+          } else if($value !== true) {
             $this->set_error($data_key, $rules, 'rules', $custom_rule);
             $is_valid = false;
           }
