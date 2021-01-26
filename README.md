@@ -42,8 +42,15 @@ $validator->rules([
     },
     'rules' => [
       //Set your own custom rules
-      'available' => is_available($_POST['email']),
-      'blocked' => !is_blocked($_POST['email'])
+      'blocked' => function() {
+        if($_POST['email'] == 'abc@gmail.com') {
+          //email abc@gmail.com is blocked
+          return false;
+        } else {
+          return true;
+        }
+      },
+      'available' => is_available($_POST['email'])
     ]
   ],
   'password' => [
@@ -222,8 +229,15 @@ $validator->rules([
     }
     'rules' => [
       //Set your own custom rules
-      'available' => is_available($_POST['email']),
-      'blocked' => !is_blocked($_POST['email'])
+      'blocked' => function() {
+        if($_POST['email'] == 'abc@gmail.com') {
+          //email abc@gmail.com is blocked
+          return false;
+        } else {
+          return true;
+        }
+      },
+      'available' => is_available($_POST['email'])
     ]
   ],
   'password' => [
