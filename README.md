@@ -195,8 +195,8 @@ if($validator->validate($data, true)) {
 | not_in         | array    | match data in given array. |
 | equal          | mixed    | it will match data with given data. |
 | not_equal      | mixed    | it will match data with given data. |
-| callback       | function | callback function is called during validation of field. we can pass single callback function and array of callback function. |
-| rules          | array    | set custom rules. custom rules are set of key value pairs, if any key has false value then it will throw an error. |
+| callback       | function | callback function is called during validation of field. we can pass single callback function and array of callback function. callback function take one parameter `value`. |
+| rules          | array    | set custom validation rules. custom rules are set of key value pairs, if any key has false value then it will throw an error. we can pass callback function in custom validation rules. function accept one parameter `value` and return true or false values. |
 
   We can set predefined/custom rules for data validation.
 
