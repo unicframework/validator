@@ -865,28 +865,30 @@ class Validator {
   */
   private function validate_callback(array $data, string $data_key, array $rules) : bool {
     $is_valid = true;
-    if(isset($rules['callback']) && !empty($rules['callback']) && is_array($rules['callback'])) {
-      foreach($rules['callback'] as $callback) {
-        if(is_callable($callback)) {
-          $callback();
-        } else if(function_exists($callback)) {
-          $callback();
+    if(isset($data[$data_key])) {
+      if(isset($rules['callback']) && !empty($rules['callback']) && is_array($rules['callback'])) {
+        foreach($rules['callback'] as $callback) {
+          if(is_callable($callback)) {
+            $callback($data[$data_key]);
+          } else if(function_exists($callback)) {
+            $callback($data[$data_key]);
+          } else {
+            $this->set_error($data_key, $rules, 'callback');
+            $is_valid = false;
+          }
+        }
+      } else if(isset($rules['callback']) && !empty($rules['callback']) && is_string($rules['callback'])) {
+        if(is_callable($rules['callback'])) {
+          $rules['callback']($data[$data_key]);
+        } else if(function_exists($rules['callback'])) {
+          $rules['callback']($data[$data_key]);
         } else {
           $this->set_error($data_key, $rules, 'callback');
           $is_valid = false;
         }
+      } else if(is_callable($rules['callback'])) {
+        $rules['callback']($data[$data_key]);
       }
-    } else if(isset($rules['callback']) && !empty($rules['callback']) && is_string($rules['callback'])) {
-      if(is_callable($rules['callback'])) {
-        $rules['callback']();
-      } else if(function_exists($rules['callback'])) {
-        $rules['callback']();
-      } else {
-        $this->set_error($data_key, $rules, 'callback');
-        $is_valid = false;
-      }
-    } else if(is_callable($rules['callback'])) {
-      $rules['callback']();
     }
     return $is_valid;
   }
@@ -901,16 +903,16 @@ class Validator {
   */
   private function validate_rules(array $data, string $data_key, array $rules) : bool {
     $is_valid = true;
-    if(isset($data[$data_key]) && !empty($data[$data_key])) {
+    if(isset($data[$data_key])) {
       if(is_array($rules['rules'])) {
         foreach($rules['rules'] as $custom_rule => $value) {
           if(is_callable($value)) {
-            if($value() !== true) {
+            if($value($data[$data_key]) !== true) {
               $this->set_error($data_key, $rules, 'rules', $custom_rule);
               $is_valid = false;
             }
           } else if(function_exists($value)) {
-            if($value() !== true) {
+            if($value($data[$data_key]) !== true) {
               $this->set_error($data_key, $rules, 'rules', $custom_rule);
               $is_valid = false;
             }
