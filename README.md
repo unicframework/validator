@@ -36,31 +36,23 @@ $validator->rules([
   'email' => [
     'required' => true,
     'email' => true,
-    'callback' => function() {
-      //Convert email to lowercase
-      $_POST['email'] = strtolower($_POST['email']);
-    },
     'rules' => [
       //Set your own custom rules
-      'blocked' => function() {
-        if($_POST['email'] == 'abc@gmail.com') {
+      'blocked' => function($value) {
+        if($value == 'abc@gmail.com') {
           //email abc@gmail.com is blocked
           return false;
         } else {
           return true;
         }
       },
-      'available' => is_available($_POST['email'])
+      'available' => is_available($value)
     ]
   ],
   'password' => [
     'required' => true,
     'minlength' => 6,
-    'maxlength' => 15,
-    'callback' => function() {
-      //Encrypt password
-      $_POST['password'] = base64_encode($_POST['password']);
-    }
+    'maxlength' => 15
   ]
 ]);
 
@@ -223,21 +215,17 @@ $validator->rules([
   'email' => [
     'required' => true,
     'email' => true,
-    'callback' => function() {
-      //Convert email to lowercase
-      $_POST['email'] = strtolower($_POST['email']);
-    }
     'rules' => [
       //Set your own custom rules
-      'blocked' => function() {
-        if($_POST['email'] == 'abc@gmail.com') {
+      'blocked' => function($value) {
+        if($value == 'abc@gmail.com') {
           //email abc@gmail.com is blocked
           return false;
         } else {
           return true;
         }
       },
-      'available' => is_available($_POST['email'])
+      'available' => is_available($value)
     ]
   ],
   'password' => [
