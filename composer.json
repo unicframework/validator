@@ -1,7 +1,7 @@
 {
     "name": "unicframework/validator",
     "type": "library",
-    "description": "Validator is a html form-data/user-data and json data validation library for PHP.",
+    "description": "Validator is a server side data validation library for PHP. We can validate html form-data, objects, arrays and json etc.",
     "keywords": [
         "validator",
         "from validator",
