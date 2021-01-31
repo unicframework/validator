@@ -1,7 +1,7 @@
 ## Validator
 
 <p align="center">
-  <img src="logo.jpg" width="400px" alt="Unic Logo">
+  <img src="logo.jpg" width="400px" alt="Validator Logo">
 </p>
 
   Validator is a server side data validation library for PHP. We can validate html form-data, objects, arrays and json etc.
