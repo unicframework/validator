@@ -198,6 +198,10 @@ class Validator {
         'true' => $data_key.' should be alphabet.',
         'false' => $data_key.' should not be alphabet.'
       ],
+      'null' => [
+        'true' => $data_key.' should be empty or null.',
+        'false' => $data_key.' should not be empty or null.'
+      ],
       'numeric' => [
         'true' => $data_key.' should be numeric.',
         'false' => $data_key.' should not be numeric.'
@@ -309,7 +313,7 @@ class Validator {
   */
   private function validate_required(array $data, string $data_key, array $rules) : bool {
     if(!isset($rules['file']) || $rules['file'] === false) {
-      if((!isset($data[$data_key]) && $rules['required'] === true)  || (isset($data[$data_key]) && empty($data[$data_key]) && $data[$data_key] !== 0 && $rules['required'] === true)) {
+      if((!array_key_exists($data_key, $data) && $rules['required'] === true)) {
         $this->set_error($data_key, $rules, 'required');
         return false;
       } else {
@@ -317,6 +321,26 @@ class Validator {
       }
     } else if((!isset($_FILES[$data_key]) && $rules['required'] === true && $rules['file'] === true) || (isset($_FILES[$data_key]) && empty($_FILES[$data_key]) && $_FILES[$data_key] !== 0 && $rules['required'] === true && $rules['file'] === true)) {
       $this->set_error($data_key, $rules, 'required');
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  /**
+  * Validate null fields.
+  *
+  * @param array $data
+  * @param string $data_key
+  * @param array $rules
+  * @return boolean
+  */
+  private function validate_null(array $data, string $data_key, array $rules) : bool {
+    if((isset($data[$data_key]) && !empty($data[$data_key]) && $data[$data_key] !== 0 && $data[$data_key] !== false && $rules['null'] === true)) {
+      $this->set_error($data_key, $rules, 'null');
+      return false;
+    } else if((isset($data[$data_key]) && empty($data[$data_key]) && $data[$data_key] !== 0 && $data[$data_key] !== false && $rules['null'] === false)) {
+      $this->set_error($data_key, $rules, 'null');
       return false;
     } else {
       return true;
