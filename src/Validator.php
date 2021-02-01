@@ -51,6 +51,7 @@ class Validator {
     //Predefined data validation rules
     $this->predefined_rules = [
       'required',
+      'null',
       'alphabet',
       'numeric',
       'alphanumeric',
