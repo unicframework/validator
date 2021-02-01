@@ -337,10 +337,10 @@ class Validator {
   * @return boolean
   */
   private function validate_null(array $data, string $data_key, array $rules) : bool {
-    if((isset($data[$data_key]) && !empty($data[$data_key]) && $data[$data_key] !== 0 && $data[$data_key] !== false && $rules['null'] === true)) {
+    if((!empty($data[$data_key]) && $data[$data_key] !== 0 && $data[$data_key] !== false && $rules['null'] === true)) {
       $this->set_error($data_key, $rules, 'null');
       return false;
-    } else if((isset($data[$data_key]) && empty($data[$data_key]) && $data[$data_key] !== 0 && $data[$data_key] !== false && $rules['null'] === false)) {
+    } else if((empty($data[$data_key]) && $data[$data_key] !== 0 && $data[$data_key] !== false && $rules['null'] === false)) {
       $this->set_error($data_key, $rules, 'null');
       return false;
     } else {
