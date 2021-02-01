@@ -168,7 +168,8 @@ if($validator->validate($data, true)) {
 
 | Rules          | Value    | Description |
 |----------------|----------|-------------|
-| required       | boolean  | set required fields, required fields can not be null or empty. |
+| required       | boolean  | required fields check only data exists or not, it doesn't check data is empty or null. |
+| null           | boolean  | check data is empty or null, use `true` for empty or null and use `false` for non empty or not null values. |
 | alphabet       | boolean  | match alphabetical data. use `true` for alphabetical and `false` for non alphabetical values. |
 | numeric        | boolean  | match numeric data. use `true` for numeric and `false` for non numeric values. |
 | alphanumeric   | boolean  | match alphanumeric data. use `true` for alphanumeric and `false` for non alphanumeric values. |
