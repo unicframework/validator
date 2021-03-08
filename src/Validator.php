@@ -100,7 +100,7 @@ class Validator {
     } else if((is_array($data) ? false : is_array(json_decode($data, true)))) {
       $data = json_decode($data, true);
     } else if(!is_array($data)) {
-      $this->errors['error'] = 'Invalid data for validation';
+      $this->errors['error'] = 'Error : Invalid data for validation';
       return false;
     }
 
@@ -109,34 +109,83 @@ class Validator {
       if(is_array($rules)) {
         foreach($rules as $rule => $value) {
           $rule = strtolower($rule);
+          //Check rule is valid or not
           if(in_array($rule, $this->predefined_rules)) {
             $func = "validate_".$rule;
             //Validate multiple data
             if($multiple_data === true) {
               foreach($data as $single_data) {
                 if(is_array($single_data)) {
-                  if($this->$func($single_data, $data_key, $rules) === false) {
-                    $is_valid = false;
-                    break;
+                  //Check data key is array or not
+                  if(strpos($data_key, '.')) {
+                    $data_keys = explode('.', $data_key);
+                    $tmp_data_key = $data_keys[count($data_keys)-1];
+                    array_pop($data_keys);
+                    $tmp_single_data = NULL;
+                    foreach($data_keys as $key) {
+                      if($tmp_single_data === NULL) {
+                        $tmp_single_data = isset($single_data[$key]) ? $single_data[$key] : NULL;
+                      } else {
+                        $tmp_single_data = isset($tmp_single_data[$key]) ? $tmp_single_data[$key] : NULL;
+                      }
+                    }
+                    if(!is_array($tmp_single_data)) {
+                      $tmp_single_data = array();
+                    }
+                    //Validate data
+                    if($this->$func($tmp_single_data, $tmp_data_key, $rules, $data_key) === false) {
+                      $is_valid = false;
+                      break;
+                    }
+                  } else {
+                    //Validate data
+                    if($this->$func($single_data, $data_key, $rules) === false) {
+                      $is_valid = false;
+                      break;
+                    }
                   }
                 } else {
-                  $this->errors['error'] = 'Invalid data for validation';
+                  $this->errors['error'] = 'Error : Invalid data for validation';
                   return false;
                 }
               }
             } else {
-              if($this->$func($data, $data_key, $rules) === false) {
-                $is_valid = false;
-                break;
+              //Check data key is array or not
+              if(strpos($data_key, '.')) {
+                $data_keys = explode('.', $data_key);
+                $tmp_data_key = $data_keys[count($data_keys)-1];
+                array_pop($data_keys);
+                $tmp_data = NULL;
+                foreach($data_keys as $key) {
+                  if($tmp_data === NULL) {
+                    $tmp_data = isset($data[$key]) ? $data[$key] : NULL;
+                  } else {
+                    $tmp_data = isset($tmp_data[$key]) ? $tmp_data[$key] : NULL;
+                  }
+                }
+                if(!is_array($tmp_data)) {
+                  $tmp_data = array();
+                }
+                //Validate data
+                if($this->$func($tmp_data, $tmp_data_key, $rules, $data_key) === false) {
+                  $is_valid = false;
+                  break;
+                }
+              } else {
+                //Validate data
+                if($this->$func($data, $data_key, $rules) === false) {
+                  $is_valid = false;
+                  break;
+                }
               }
             }
           } else {
-            $this->errors['error'] = 'Invalid rules for validation';
+            $this->errors['error'] = 'Error : Invalid rules for validation';
             return false;
           }
         }
       } else {
-        $this->errors['error'] = 'Invalid rules for validation';
+        $this->errors['error'] = 'Error : Invalid rules for validation';
         return false;
       }
     }
@@ -310,18 +359,19 @@ class Validator {
   * @param array $data
   * @param string $data_key
   * @param array $rules
+  * @param string $message_key
   * @return boolean
   */
-  private function validate_required(array $data, string $data_key, array $rules) : bool {
+  private function validate_required(array $data, string $data_key, array $rules, string $message_key = NULL) : bool {
     if(!isset($rules['file']) || $rules['file'] === false) {
       if((!array_key_exists($data_key, $data) && $rules['required'] === true)) {
-        $this->set_error($data_key, $rules, 'required');
+        $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'required');
         return false;
       } else {
         return true;
       }
     } else if((!isset($_FILES[$data_key]) && $rules['required'] === true && $rules['file'] === true) || (isset($_FILES[$data_key]) && empty($_FILES[$data_key]) && $_FILES[$data_key] !== 0 && $rules['required'] === true && $rules['file'] === true)) {
-      $this->set_error($data_key, $rules, 'required');
+      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'required');
       return false;
     } else {
       return true;
@@ -334,14 +384,15 @@ class Validator {
   * @param array $data
   * @param string $data_key
   * @param array $rules
+  * @param string $message_key
   * @return boolean
   */
-  private function validate_null(array $data, string $data_key, array $rules) : bool {
-    if(array_key_exists($key, $data) && !empty($data[$data_key]) && $data[$data_key] !== 0 && $data[$data_key] !== false && $rules['null'] === true) {
-      $this->set_error($data_key, $rules, 'null');
+  private function validate_null(array $data, string $data_key, array $rules, string $message_key = NULL) : bool {
+    if(array_key_exists($data_key, $data) && !empty($data[$data_key]) && $data[$data_key] !== 0 && $data[$data_key] !== false && $rules['null'] === true) {
+      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'null');
       return false;
-    } else if(array_key_exists($key, $data) && empty($data[$data_key]) && $data[$data_key] !== 0 && $data[$data_key] !== false && $rules['null'] === false) {
-      $this->set_error($data_key, $rules, 'null');
+    } else if(array_key_exists($data_key, $data) && empty($data[$data_key]) && $data[$data_key] !== 0 && $data[$data_key] !== false && $rules['null'] === false) {
+      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'null');
       return false;
     } else {
       return true;
