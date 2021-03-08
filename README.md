@@ -152,12 +152,12 @@ $validator->rules([
   ]
 ]);
 
-//Validate custom data
+//Validate multiple sets of data
 if($validator->validate($data, true)) {
   //Ok data is valid
 } else {
   //Display validation errors
-  print_r($validator->errors();
+  print_r($validator->errors());
 }
 ```
 
