@@ -125,12 +125,16 @@ $data = [
   [
     'name' => 'abc xyz',
     'gender' => 'male',
-    'email' => 'abc@gmail.com'
+    'contact' => [
+      'email' => 'xyz@gmail.com'
+    ]
   ],
   [
     'name' => 'xyz abc',
     'gender' => 'male',
-    'email' => 'xyz@gmail.com'
+    'contact' => [
+      'email' => 'xyz@gmail.com'
+    ]
   ]
 ];
 
@@ -146,9 +150,17 @@ $validator->rules([
     'lowercase' => true,
     'in' => ['male', 'female', 'other']
   ],
-  'email' => [
+  'contact.email' => [
     'required' => true,
     'email' => true,
+  ]
+]);
+
+//Set validation messages
+$validator->messages([
+  'contact.email' => [
+    'required' => 'Please enter email address.',
+    'email' => 'Please enter valid email address.'
   ]
 ]);
 
