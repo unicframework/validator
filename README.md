@@ -381,6 +381,7 @@ $validator->rules([
   ],
   'password' => [
     'required' => true,
+    'not_null' => true,
     'minlength' => 6,
     'maxlength' => 15
   ],
