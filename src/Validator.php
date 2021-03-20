@@ -52,6 +52,7 @@ class Validator {
     $this->predefined_rules = [
       'required',
       'null',
+      'not_null',
       'alphabet',
       'numeric',
       'alphanumeric',
@@ -200,7 +201,51 @@ class Validator {
   * @return void
   */
   public function rules(array $rules) {
-    $this->rules = $rules;
+    //Parse validation rules
+    $parsed_rules = [];
+    foreach($rules as $data_key => $data_rules) {
+      $parsed_data_rules = [];
+      if(is_array($data_rules)) {
+        $parsed_data_rules = $data_rules;
+      } else {
+        $tmp_rules = array_map(function($value) {
+          //Remove white space
+          return trim($value);
+        }, explode('|', $data_rules));
+        foreach($tmp_rules as $rule) {
+          $tmp_rule = array_map(function($value) {
+            //Remove white space
+            return trim($value);
+          }, explode(':', $rule));
+          if(count($tmp_rule) == 2) {
+            if(strtolower($tmp_rule[1]) == 'true') {
+              $tmp_rule[1] = true;
+            } else if(strtolower($tmp_rule[1]) == 'false') {
+              $tmp_rule[1] = false;
+            } else {
+              $tmp_rule_value = array_map(function($value) {
+                //Remove white space
+                return trim($value);
+              }, explode(',', $tmp_rule[1]));
+              if(count($tmp_rule_value) > 1) {
+                $tmp_rule[1] = $tmp_rule_value;
+              }
+            }
+            $parsed_data_rules[$tmp_rule[0]] = $tmp_rule[1];
+          } else {
+            $parsed_data_rules[$tmp_rule[0]] = true;
+          }
+        }
+      }
+      $tmp_data_key = array_map(function($value) {
+        //Remove white space
+        return trim($value);
+      }, explode(',', $data_key));
+      foreach($tmp_data_key as $data_key) {
+        $parsed_rules[$data_key] = $parsed_data_rules;
+      }
+    }
+    $this->rules = $parsed_rules;
   }
 
   /**
@@ -211,7 +256,38 @@ class Validator {
   * @return void
   */
   public function messages(array $messages) {
-    $this->messages = $messages;
+    //Parse validation messages
+    $parsed_messages = [];
+    foreach($messages as $data_key => $data_messages) {
+      $parsed_data_messages = [];
+      if(is_array($data_messages)) {
+        $parsed_data_messages = $data_messages;
+      } else {
+        $tmp_messages = array_map(function($value) {
+          //Remove white space
+          return trim($value);
+        }, explode('|', $data_messages));
+        foreach($tmp_messages as $message) {
+          $tmp_message = array_map(function($value) {
+            //Remove white space
+            return trim($value);
+          }, explode(':', $message));
+          if(count($tmp_message) == 2) {
+            $parsed_data_messages[$tmp_message[0]] = $tmp_message[1];
+          } else {
+            $parsed_data_messages = $tmp_message[0];
+          }
+        }
+      }
+      $tmp_data_key = array_map(function($value) {
+        //Remove white space
+        return trim($value);
+      }, explode(',', $data_key));
+      foreach($tmp_data_key as $data_key) {
+        $parsed_messages[$data_key] = $parsed_data_messages;
+      }
+    }
+    $this->messages = $parsed_messages;
   }
 
   /**
@@ -251,6 +327,10 @@ class Validator {
       'null' => [
         'true' => $data_key.' should be empty or null.',
         'false' => $data_key.' should not be empty or null.'
+      ],
+      'not_null' => [
+        'true' => $data_key.' should not be empty or null.',
+        'false' => $data_key.' should be empty or null.'
       ],
       'numeric' => [
         'true' => $data_key.' should be numeric.',
@@ -393,6 +473,27 @@ class Validator {
       return false;
     } else if(array_key_exists($data_key, $data) && empty($data[$data_key]) && $data[$data_key] !== 0 && $data[$data_key] !== false && $rules['null'] === false) {
       $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'null');
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  /**
+  * Validate not null fields.
+  *
+  * @param array $data
+  * @param string $data_key
+  * @param array $rules
+  * @param string $message_key
+  * @return boolean
+  */
+  private function validate_not_null(array $data, string $data_key, array $rules, string $message_key = NULL) : bool {
+    if(array_key_exists($data_key, $data) && empty($data[$data_key]) && $data[$data_key] !== 0 && $data[$data_key] !== false && $rules['not_null'] === true) {
+      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'not_null');
+      return false;
+    } else if(array_key_exists($data_key, $data) && !empty($data[$data_key]) && $data[$data_key] !== 0 && $data[$data_key] !== false && $rules['not_null'] === false) {
+      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'not_null');
       return false;
     } else {
       return true;
