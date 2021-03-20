@@ -48,7 +48,7 @@ $validator->rules([
 ]);
 ```
 
-We can use a shorthand method to set data validation rules.
+We can also use a shorthand method to set data validation rules, which is very simple and shorter.
 
 ```php
 $validator->rules([
@@ -61,7 +61,7 @@ $validator->rules([
 
 ### Set Error Messages
 
-  We can set error messages using `messages` method. if we not set error messages Validator automatically generate error messages for you.
+  We can set error messages using `messages` method. if we don't set error messages then validator automatically generate error messages for you.
 
 ```php
 $validator->messages([
@@ -93,7 +93,7 @@ $validator->messages([
 ]);
 ```
 
-We can use a shorthand method to set data validation rules.
+We can also use a shorthand method to set data validation rules, which is very simple and shorter.
 
 ```php
 $validator->rules([
@@ -167,14 +167,17 @@ $validator = new Validator();
 $validator->rules([
   'name' => [
     'required' => true,
+    'not_null' => true,
     'string' => true
   ],
   'email' => [
     'required' => true,
+    'not_null' => true,
     'email' => true
   ],
   'password' => [
     'required' => true,
+    'not_null' => true,
     'minlength' => 6,
     'maxlength' => 15
   ]
@@ -212,16 +215,19 @@ $data = [
 $validator->rules([
   'name' => [
     'required' => true,
+    'not_null' => true,
     'string' => true
   ],
   'gender' => [
     'required' => true,
+    'not_null' => true,
     'string' => true,
     'lowercase' => true,
     'in' => ['male', 'female', 'other']
   ],
   'email' => [
     'required' => true,
+    'not_null' => true,
     'email' => true
   ]
 ]);
@@ -265,16 +271,19 @@ $data = [
 $validator->rules([
   'name' => [
     'required' => true,
+    'not_null' => true,
     'string' => true
   ],
   'gender' => [
     'required' => true,
+    'not_null' => true,
     'string' => true,
     'lowercase' => true,
     'in' => ['male', 'female', 'other']
   ],
   'contact.email' => [
     'required' => true,
+    'not_null' => true,
     'email' => true,
   ]
 ]);
@@ -344,15 +353,18 @@ if($validator->validate($data, true)) {
 $validator->rules([
   'name' => [
     'required' => true,
+    'not_null' => true,
     'string' => true
   ],
   'gender' => [
     'required' => true,
+    'not_null' => true,
     'string' => true,
     'in' => ['male', 'female', 'other']
   ],
   'email' => [
     'required' => true,
+    'not_null' => true,
     'email' => true,
     'rules' => [
       //Set your own custom rules
