@@ -4,7 +4,7 @@
   <img src="logo.jpg" width="400px" alt="Validator Logo">
 </p>
 
-  Validator is a server side data validation library for PHP. Validate html form-data, objects, arrays and json etc.
+  Validator is a server side data validation library for PHP. Validate html form-data, objects, arrays and json etc. Validator make data validation simple.
 
 ### Installation
 
@@ -19,6 +19,10 @@ composer require unicframework/validator
   We can set data validation rules using `rules` method.
 
 ```php
+use Validator\Validator;
+
+$validator = new Validator();
+
 $validator->rules([
   'first_name' => [
     'required' => true,
@@ -51,6 +55,10 @@ $validator->rules([
 We can also use a shorthand method to set data validation rules, which is very simple and shorter.
 
 ```php
+use Validator\Validator;
+
+$validator = new Validator();
+
 $validator->rules([
   'first_name,last_name' => 'required|not_null|string',
   'email' => 'required|not_null|email',
@@ -64,6 +72,10 @@ $validator->rules([
   We can set error messages using `messages` method. if we don't set error messages then validator automatically generate error messages for you.
 
 ```php
+use Validator\Validator;
+
+$validator = new Validator();
+
 $validator->messages([
   'first_name' => [
     'required' => 'First name is required',
@@ -96,6 +108,10 @@ $validator->messages([
 We can also use a shorthand method to set data validation rules, which is very simple and shorter.
 
 ```php
+use Validator\Validator;
+
+$validator = new Validator();
+
 $validator->rules([
   'first_name,last_name' => 'required:Name is required|not_null:Name can not be null|string:Name should be in string',
   'email' => 'required:Email is required|not_null:Email can not be null|email:Please enter valid email address',
@@ -108,6 +124,10 @@ $validator->rules([
   Using validator we can validate form-data, array, object and json data. we validate data using `validate` method. if all data is valid then it will return `true` otherwise it will return `false`.
 
 ```php
+use Validator\Validator;
+
+$validator = new Validator();
+
 //Array data
 $data = [
   'name' => 'abc',
@@ -126,6 +146,10 @@ if($validator->validate($data)) {
   We can validate multiple sets of data using validator.
 
 ```php
+use Validator\Validator;
+
+$validator = new Validator();
+
 //Array data
 $data = [
   [
