@@ -23,6 +23,7 @@ use Validator\Validator;
 
 $validator = new Validator();
 
+//Set data validation rules
 $validator->rules([
   'first_name' => [
     'required' => true,
@@ -59,6 +60,7 @@ use Validator\Validator;
 
 $validator = new Validator();
 
+//Set data validation rules
 $validator->rules([
   'first_name,last_name' => 'required|not_null|string',
   'email' => 'required|not_null|email',
@@ -76,6 +78,7 @@ use Validator\Validator;
 
 $validator = new Validator();
 
+//Set validation error messages
 $validator->messages([
   'first_name' => [
     'required' => 'First name is required',
@@ -112,7 +115,8 @@ use Validator\Validator;
 
 $validator = new Validator();
 
-$validator->rules([
+//Set validation error messages
+$validator->messages([
   'first_name,last_name' => 'required:Name is required|not_null:Name can not be null|string:Name should be in string',
   'email' => 'required:Email is required|not_null:Email can not be null|email:Please enter valid email address',
   'gender' => 'required:Gender is required|not_null:Gender can not be null|in:Please select valid gender'
@@ -121,7 +125,7 @@ $validator->rules([
 ```
 
 ### Validate Data
-  Using validator we can validate form-data, array, object and json data. we validate data using `validate` method. if all data is valid then it will return `true` otherwise it will return `false`.
+  Using validator we can validate html form-data, array, object and json data. Validator validate data according to rules. It will return `true` if all the data are valid, otherwise it will return `false`.
 
 ```php
 use Validator\Validator;
