@@ -94,6 +94,7 @@ class Validator {
   */
   public function validate($data, $multiple_data=false) : bool {
     $is_valid = true;
+    $this->errors = [];
 
     //Convert users data type to array
     if(is_object($data)) {
