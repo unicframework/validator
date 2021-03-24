@@ -38,7 +38,7 @@ class Validator {
   *
   * @var array
   */
-  private $default_message;
+  private $default_messages;
 
   /**
   * Store predefined rules
@@ -46,6 +46,21 @@ class Validator {
   * @var array
   */
   private $predefined_rules;
+
+  /**
+  * Store valid data
+  *
+  * @var array
+  */
+  private $valid_data;
+
+  /**
+  * Store invalid data
+  *
+  * @var array
+  */
+  private $invalid_data;
+
 
   function __construct() {
     //Predefined data validation rules
@@ -95,6 +110,8 @@ class Validator {
   public function validate($data, $multiple_data=false) : bool {
     $is_valid = true;
     $this->errors = [];
+    $this->valid_data = [];
+    $this->invalid_data = [];
 
     //Convert users data type to array
     if(is_object($data)) {
@@ -108,6 +125,7 @@ class Validator {
 
     //Validate users data
     foreach($this->rules as $data_key => $rules) {
+      $is_valid_data = true;
       if(is_array($rules)) {
         foreach($rules as $rule => $value) {
           $rule = strtolower($rule);
@@ -137,12 +155,14 @@ class Validator {
                     //Validate data
                     if($this->$func($tmp_single_data, $tmp_data_key, $rules, $data_key) === false) {
                       $is_valid = false;
+                      $is_valid_data = false;
                       break;
                     }
                   } else {
                     //Validate data
                     if($this->$func($single_data, $data_key, $rules) === false) {
                       $is_valid = false;
+                      $is_valid_data = false;
                       break;
                     }
                   }
@@ -171,12 +191,14 @@ class Validator {
                 //Validate data
                 if($this->$func($tmp_data, $tmp_data_key, $rules, $data_key) === false) {
                   $is_valid = false;
+                  $is_valid_data = false;
                   break;
                 }
               } else {
                 //Validate data
                 if($this->$func($data, $data_key, $rules) === false) {
                   $is_valid = false;
+                  $is_valid_data = false;
                   break;
                 }
               }
@@ -185,6 +207,12 @@ class Validator {
             $this->errors['error'] = 'Error : Invalid rules for validation';
             return false;
           }
+        }
+        //Get valid data
+        if($is_valid_data === true) {
+          $this->valid_data[$data_key] = $data[$data_key];
+        } else {
+          $this->invalid_data[$data_key] = $data[$data_key];
         }
       } else {
         $this->errors['error'] = 'Error : Invalid rules for validation';
