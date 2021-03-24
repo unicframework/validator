@@ -31,7 +31,7 @@ class Validator {
   *
   * @var array
   */
-  private $message;
+  private $messages;
 
   /**
   * Store default error messages
@@ -46,6 +46,13 @@ class Validator {
   * @var array
   */
   private $predefined_rules;
+
+  /**
+  * Store parsed data
+  *
+  * @var array
+  */
+  private $parsed_data;
 
   /**
   * Store valid data
