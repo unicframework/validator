@@ -47,28 +47,6 @@ class Validator {
   */
   private $predefined_rules;
 
-  /**
-  * Store parsed data
-  *
-  * @var array
-  */
-  private $parsed_data;
-
-  /**
-  * Store valid data
-  *
-  * @var array
-  */
-  private $valid_data;
-
-  /**
-  * Store invalid data
-  *
-  * @var array
-  */
-  private $invalid_data;
-
-
   function __construct() {
     //Predefined data validation rules
     $this->predefined_rules = [
@@ -162,14 +140,12 @@ class Validator {
                     //Validate data
                     if($this->$func($tmp_single_data, $tmp_data_key, $rules, $data_key) === false) {
                       $is_valid = false;
-                      $is_valid_data = false;
                       break;
                     }
                   } else {
                     //Validate data
                     if($this->$func($single_data, $data_key, $rules) === false) {
                       $is_valid = false;
-                      $is_valid_data = false;
                       break;
                     }
                   }
@@ -198,14 +174,12 @@ class Validator {
                 //Validate data
                 if($this->$func($tmp_data, $tmp_data_key, $rules, $data_key) === false) {
                   $is_valid = false;
-                  $is_valid_data = false;
                   break;
                 }
               } else {
                 //Validate data
                 if($this->$func($data, $data_key, $rules) === false) {
                   $is_valid = false;
-                  $is_valid_data = false;
                   break;
                 }
               }
