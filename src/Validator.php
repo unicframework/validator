@@ -95,8 +95,6 @@ class Validator {
   public function validate($data, $multiple_data=false) : bool {
     $is_valid = true;
     $this->errors = [];
-    $this->valid_data = [];
-    $this->invalid_data = [];
 
     //Convert users data type to array
     if(is_object($data)) {
@@ -110,7 +108,6 @@ class Validator {
 
     //Validate users data
     foreach($this->rules as $data_key => $rules) {
-      $is_valid_data = true;
       if(is_array($rules)) {
         foreach($rules as $rule => $value) {
           $rule = strtolower($rule);
