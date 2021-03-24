@@ -215,12 +215,6 @@ class Validator {
             return false;
           }
         }
-        //Get valid data
-        if($is_valid_data === true) {
-          $this->valid_data[$data_key] = $data[$data_key];
-        } else {
-          $this->invalid_data[$data_key] = $data[$data_key];
-        }
       } else {
         $this->errors['error'] = 'Error : Invalid rules for validation';
         return false;
