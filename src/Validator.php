@@ -382,7 +382,7 @@ class Validator {
       'min' => $data_key.' minimum value should be at least '.(isset($rules['min']) ? $rules['min'] : ''),
       'max' => $data_key.' maximum value should be '.(isset($rules['max']) ? $rules['max'] : ''),
       'email' => [
-        'true' => 'Please enter valid email address.',
+        'true' => $data_key.' should be email address.',
         'false' => $data_key.' should not be email address.'
       ],
       'file' => [
