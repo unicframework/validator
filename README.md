@@ -134,7 +134,7 @@ We can also use a shorthand method to set data validation rules, which is very s
 ```php
 use Validator\Validator;
 
-//Set validation error messages
+// Set validation error messages
 $validator = Validator::make([
   'first_name,last_name' => 'required|not_null|string',
   'email' => 'required|not_null|email',
