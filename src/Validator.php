@@ -1,13 +1,13 @@
 <?php
 /**
-* Validator Library
-* Validator library validates users data and form data, json data.
-*
-* @package : Validator Library
-* @category : Library
-* @author : Unic Framework
-* @link : https://github.com/unicframework/unic
-*/
+ * Validator Library
+ * Validator library validates users data and form data, json data.
+ *
+ * @package : Validator Library
+ * @category : Library
+ * @author : Unic Framework
+ * @link : https://github.com/unicframework/unic
+ */
 
 namespace Validator;
 use Validator\Validation;
@@ -43,12 +43,12 @@ class Validator {
         $parsed_data_rules = $data_rules;
       } else {
         $tmp_rules = array_map(function($value) {
-          //Remove white space
+          // Remove white space
           return trim($value);
         }, explode('|', $data_rules));
         foreach($tmp_rules as $rule) {
           $tmp_rule = array_map(function($value) {
-            //Remove white space
+            // Remove white space
             return trim($value);
           }, explode(':', $rule));
           if(count($tmp_rule) == 2) {
@@ -58,7 +58,7 @@ class Validator {
               $tmp_rule[1] = false;
             } else {
               $tmp_rule_value = array_map(function($value) {
-                //Remove white space
+                // Remove white space
                 return trim($value);
               }, explode(',', $tmp_rule[1]));
               if(count($tmp_rule_value) > 1) {
@@ -72,7 +72,7 @@ class Validator {
         }
       }
       $tmp_data_key = array_map(function($value) {
-        //Remove white space
+        // Remove white space
         return trim($value);
       }, explode(',', $data_key));
       foreach($tmp_data_key as $data_key) {
@@ -89,12 +89,12 @@ class Validator {
         $parsed_data_messages = $data_messages;
       } else {
         $tmp_messages = array_map(function($value) {
-          //Remove white space
+          // Remove white space
           return trim($value);
         }, explode('|', $data_messages));
         foreach($tmp_messages as $message) {
           $tmp_message = array_map(function($value) {
-            //Remove white space
+            // Remove white space
             return trim($value);
           }, explode(':', $message));
           if(count($tmp_message) == 2) {
@@ -105,7 +105,7 @@ class Validator {
         }
       }
       $tmp_data_key = array_map(function($value) {
-        //Remove white space
+        // Remove white space
         return trim($value);
       }, explode(',', $data_key));
       foreach($tmp_data_key as $data_key) {
