@@ -1,13 +1,13 @@
 <?php
 /**
-* Validator Library
-* Validator library validates users data and form data, json data.
-*
-* @package : Validator Library
-* @category : Library
-* @author : Unic Framework
-* @link : https://github.com/unicframework/unic
-*/
+ * Validator Library
+ * Validator library validates users data and form data, json data.
+ *
+ * @package : Validator Library
+ * @category : Library
+ * @author : Unic Framework
+ * @link : https://github.com/unicframework/unic
+ */
 
 namespace Validator;
 
@@ -75,7 +75,6 @@ class Validation {
     'not_in',
     'equal',
     'not_equal',
-    'callback',
     'rules'
   ];
 
