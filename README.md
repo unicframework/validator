@@ -183,8 +183,8 @@ $validator = Validator::make([
   ]
 ]);
 
-//Data for validation
-//We can validate any data like arrays, objects, and json etc.
+// Data for validation
+// We can validate any data like arrays, objects, and json etc.
 $data = [
   'name' => 'abc xyz',
   'gender' => 'male',
@@ -193,11 +193,11 @@ $data = [
   ]
 ];
 
-//Validate data
+// Validate data
 if($validator->validate($data)) {
   //Ok data is valid
 } else {
-  //Display validation errors
+  // Display validation errors
   print_r($validator->errors();
 }
 ```
@@ -233,8 +233,8 @@ $validator = Validator::make([
   ]
 ]);
 
-//Data for validation
-//We can validate any data like arrays, objects, and json etc.
+// Data for validation
+// We can validate any data like arrays, objects, and json etc.
 $data = [
   [
     'name' => 'abc xyz',
@@ -266,7 +266,7 @@ if($validator->validate($data, true)) {
   We can get errors using `errors` method. the `errors` method return an array of errors.
 
 ```php
-//Get all errors
+// Get all errors
 $errors = $validator->errors();
 ```
 
@@ -313,7 +313,7 @@ $errors = $validator->errors();
   We can set predefined/custom rules for data validation.
 
 ```php
-//Set validation rules
+// Set validation rules
 $validator = Validator::make([
   'name' => [
     'required' => true,
@@ -331,10 +331,10 @@ $validator = Validator::make([
     'not_null' => true,
     'email' => true,
     'rules' => [
-      //Set your own custom rules
+      // Set your own custom rules
       'blocked' => function($value) {
         if($value == 'abc@gmail.com') {
-          //email abc@gmail.com is blocked
+          // Email abc@gmail.com is blocked
           return false;
         } else {
           return true;
