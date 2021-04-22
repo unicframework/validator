@@ -205,7 +205,7 @@ class Validation {
   }
 
   /**
-   * Get valid data
+   * Get invalid data
    *
    * @return array
    */
