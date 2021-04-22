@@ -21,10 +21,8 @@ composer require unicframework/validator
 ```php
 use Validator\Validator;
 
-$validator = new Validator();
-
-//Set data validation rules
-$validator->rules([
+// Set data validation rules
+$validator = Validator::make([
   'first_name' => [
     'required' => true,
     'not_null' => true,
@@ -58,10 +56,8 @@ We can also use a shorthand method to set data validation rules, which is very s
 ```php
 use Validator\Validator;
 
-$validator = new Validator();
-
-//Set data validation rules
-$validator->rules([
+// Set data validation rules
+$validator = Validator::make([
   'first_name,last_name' => 'required|not_null|string',
   'email' => 'required|not_null|email',
   'gender' => 'required|not_null|in:male,female',
@@ -76,10 +72,35 @@ $validator->rules([
 ```php
 use Validator\Validator;
 
-$validator = new Validator();
-
-//Set validation error messages
-$validator->messages([
+// Set validation error messages
+$validator = Validator::make([
+  'first_name' => [
+    'required' => true,
+    'not_null' => true,
+    'string' => true
+  ],
+  'last_name' => [
+    'required' => true,
+    'not_null' => true,
+    'string' => true
+  ],
+  'email' => [
+    'required' => true,
+    'not_null' => true,
+    'email' => true
+  ],
+  'gender' => [
+    'required' => true,
+    'not_null' => true,
+    'in' => ['male', 'female']
+  ],
+  'password' => [
+    'required' => true,
+    'not_null' => true,
+    'minlength' => 6
+  ]
+],
+[
   'first_name' => [
     'required' => 'First name is required',
     'not_null' => 'First name can not be null',
@@ -113,10 +134,14 @@ We can also use a shorthand method to set data validation rules, which is very s
 ```php
 use Validator\Validator;
 
-$validator = new Validator();
-
 //Set validation error messages
-$validator->messages([
+$validator = Validator::make([
+  'first_name,last_name' => 'required|not_null|string',
+  'email' => 'required|not_null|email',
+  'gender' => 'required|not_null|in:male,female',
+  'password' => 'required|not_null|minlength:6'
+],
+[
   'first_name,last_name' => 'required:Name is required|not_null:Name can not be null|string:Name should be in string',
   'email' => 'required:Email is required|not_null:Email can not be null|email:Please enter valid email address',
   'gender' => 'required:Gender is required|not_null:Gender can not be null|in:Please select valid gender'
@@ -127,120 +152,12 @@ $validator->messages([
 ### Validate Data
   Using validator we can validate html form-data, array, object and json data. Validator validate data according to rules. It will return `true` if all the data are valid, otherwise it will return `false`.
 
-```php
-use Validator\Validator;
-
-$validator = new Validator();
-
-//Array data
-$data = [
-  'name' => 'abc',
-  'email' => 'abc@gmail.com'
-];
-
-//Check data is valid or not
-if($validator->validate($data)) {
-  //Data is valid
-} else {
-  //Display all errors
-  print_r($validator->errors());
-}
-```
-
-  We can validate multiple sets of data using validator.
-
-```php
-use Validator\Validator;
-
-$validator = new Validator();
-
-//Array data
-$data = [
-  [
-    'name' => 'abc',
-    'email' => 'abc@gmail.com'
-  ],
-  [
-    'name' => 'abc',
-    'email' => 'abc@gmail.com'
-  ]
-];
-
-//Check data is valid or not
-if($validator->validate($data, true)) {
-  //Data is valid
-} else {
-  //Display all errors
-  print_r($validator->errors());
-}
-```
-
-### Get Invalid Errors
-
-  We can get errors using `errors` method. the `errors` method return an array of errors.
-
-```php
-//Get all errors
-$errors = validator->errors();
-```
-
-### Validate HTML Form-Data
-
-```php
-use Validator\Validator;
-
-$validator = new Validator();
-
-//Set validation rules
-$validator->rules([
-  'name' => [
-    'required' => true,
-    'not_null' => true,
-    'string' => true
-  ],
-  'email' => [
-    'required' => true,
-    'not_null' => true,
-    'email' => true
-  ],
-  'password' => [
-    'required' => true,
-    'not_null' => true,
-    'minlength' => 6,
-    'maxlength' => 15
-  ]
-]);
-
-//Validate form data
-if($validator->validate($_POST)) {
-  //Ok data is valid
-} else {
-  //Display validation errors
-  print_r($validator->errors());
-}
-```
-
-### Validate Custom Data
-
-  We can validate custom data like objects, json, arrays etc.
-
   #### Validate single data :
 
 ```php
 use Validator\Validator;
 
-$validator = new Validator();
-
-//Data for validation
-//We can validate any data like arrays, objects, and json etc.
-$data = [
-  'name' => 'abc xyz',
-  'gender' => 'male',
-  'email' => 'abc@gmail.com'
-];
-
-//Set validation rules
-$validator->rules([
+$validator = Validator::make([
   'name' => [
     'required' => true,
     'not_null' => true,
@@ -253,14 +170,30 @@ $validator->rules([
     'lowercase' => true,
     'in' => ['male', 'female', 'other']
   ],
-  'email' => [
+  'contact.email' => [
     'required' => true,
     'not_null' => true,
-    'email' => true
+    'email' => true,
+  ]
+],
+[
+  'contact.email' => [
+    'required' => 'Please enter email address.',
+    'email' => 'Please enter valid email address.'
   ]
 ]);
 
-//Validate custom data
+//Data for validation
+//We can validate any data like arrays, objects, and json etc.
+$data = [
+  'name' => 'abc xyz',
+  'gender' => 'male',
+  'contact' => [
+    'email' => 'abc@gmail.com'
+  ]
+];
+
+//Validate data
 if($validator->validate($data)) {
   //Ok data is valid
 } else {
@@ -274,7 +207,31 @@ if($validator->validate($data)) {
 ```php
 use Validator\Validator;
 
-$validator = new Validator();
+$validator = Validator::make([
+  'name' => [
+    'required' => true,
+    'not_null' => true,
+    'string' => true
+  ],
+  'gender' => [
+    'required' => true,
+    'not_null' => true,
+    'string' => true,
+    'lowercase' => true,
+    'in' => ['male', 'female', 'other']
+  ],
+  'contact.email' => [
+    'required' => true,
+    'not_null' => true,
+    'email' => true,
+  ]
+],
+[
+  'contact.email' => [
+    'required' => 'Please enter email address.',
+    'email' => 'Please enter valid email address.'
+  ]
+]);
 
 //Data for validation
 //We can validate any data like arrays, objects, and json etc.
@@ -295,42 +252,22 @@ $data = [
   ]
 ];
 
-//Set validation rules
-$validator->rules([
-  'name' => [
-    'required' => true,
-    'not_null' => true,
-    'string' => true
-  ],
-  'gender' => [
-    'required' => true,
-    'not_null' => true,
-    'string' => true,
-    'lowercase' => true,
-    'in' => ['male', 'female', 'other']
-  ],
-  'contact.email' => [
-    'required' => true,
-    'not_null' => true,
-    'email' => true,
-  ]
-]);
-
-//Set validation messages
-$validator->messages([
-  'contact.email' => [
-    'required' => 'Please enter email address.',
-    'email' => 'Please enter valid email address.'
-  ]
-]);
-
-//Validate multiple sets of data
+// Validate multiple sets of data
 if($validator->validate($data, true)) {
-  //Ok data is valid
+  // Ok data is valid
 } else {
-  //Display validation errors
+  // Display validation errors
   print_r($validator->errors());
 }
+```
+
+### Get Invalid Errors
+
+  We can get errors using `errors` method. the `errors` method return an array of errors.
+
+```php
+//Get all errors
+$errors = $validator->errors();
 ```
 
 
@@ -342,7 +279,7 @@ if($validator->validate($data, true)) {
 |----------------|----------|-------------|
 | required       | boolean  | required fields check only data exists or not, it doesn't check data is empty or null. |
 | null           | boolean  | check data is empty or null, use `true` for empty or null and use `false` for non empty or not null values. |
-| not_null           | boolean  | check data is empty or null, use `true` for not null and use `false` for empty or null values. |
+| not_null       | boolean  | check data is empty or null, use `true` for not null and use `false` for empty or null values. |
 | alphabet       | boolean  | match alphabetical data. use `true` for alphabetical and `false` for non alphabetical values. |
 | numeric        | boolean  | match numeric data. use `true` for numeric and `false` for non numeric values. |
 | alphanumeric   | boolean  | match alphanumeric data. use `true` for alphanumeric and `false` for non alphanumeric values. |
@@ -369,7 +306,6 @@ if($validator->validate($data, true)) {
 | not_in         | array    | match data in given array. |
 | equal          | mixed    | it will match data with given data. |
 | not_equal      | mixed    | it will match data with given data. |
-| callback       | function | callback function is called during validation of field. we can pass single callback function and array of callback function. callback function take one parameter `value`. |
 | rules          | array    | set custom validation rules. custom rules are set of key value pairs, if any key has false value then it will throw an error. we can pass callback function in custom validation rules. function accept one parameter `value` and return true or false values. |
 
 ### Set Custom Rules
@@ -378,7 +314,7 @@ if($validator->validate($data, true)) {
 
 ```php
 //Set validation rules
-$validator->rules([
+$validator = Validator::make([
   'name' => [
     'required' => true,
     'not_null' => true,
