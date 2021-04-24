@@ -368,13 +368,13 @@ class Validation {
   private function validate_required(array $data, string $data_key, array $rules, string $message_key = NULL) : bool {
     if(!isset($rules['file']) || $rules['file'] === false) {
       if((!array_key_exists($data_key, $data) && $rules['required'] === true)) {
-        $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'required');
+        $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'required');
         return false;
       } else {
         return true;
       }
     } else if((!isset($_FILES[$data_key]) && $rules['required'] === true && $rules['file'] === true) || (isset($_FILES[$data_key]) && empty($_FILES[$data_key]) && $_FILES[$data_key] !== 0 && $rules['required'] === true && $rules['file'] === true)) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'required');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'required');
       return false;
     } else {
       return true;
@@ -391,11 +391,11 @@ class Validation {
    * @return boolean
    */
   private function validate_null(array $data, string $data_key, array $rules, string $message_key = NULL) : bool {
-    if(array_key_exists($data_key, $data) && !empty($data[$data_key]) && $data[$data_key] !== 0 && $data[$data_key] !== false && $rules['null'] === true) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'null');
+    if(array_key_exists($data_key, $data) && !empty($data[$data_key]) && !is_numeric($data[$data_key]) && $data[$data_key] !== false && $rules['null'] === true) {
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'null');
       return false;
-    } else if(array_key_exists($data_key, $data) && empty($data[$data_key]) && $data[$data_key] !== 0 && $data[$data_key] !== false && $rules['null'] === false) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'null');
+    } else if(array_key_exists($data_key, $data) && empty($data[$data_key]) && !is_numeric($data[$data_key]) && $data[$data_key] !== false && $rules['null'] === false) {
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'null');
       return false;
     } else {
       return true;
@@ -412,11 +412,11 @@ class Validation {
    * @return boolean
    */
   private function validate_not_null(array $data, string $data_key, array $rules, string $message_key = NULL) : bool {
-    if(array_key_exists($data_key, $data) && empty($data[$data_key]) && $data[$data_key] !== 0 && $data[$data_key] !== false && $rules['not_null'] === true) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'not_null');
+    if(array_key_exists($data_key, $data) && empty($data[$data_key]) && !is_numeric($data[$data_key]) && $data[$data_key] !== false && $rules['not_null'] === true) {
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'not_null');
       return false;
-    } else if(array_key_exists($data_key, $data) && !empty($data[$data_key]) && $data[$data_key] !== 0 && $data[$data_key] !== false && $rules['not_null'] === false) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'not_null');
+    } else if(array_key_exists($data_key, $data) && !empty($data[$data_key]) && !is_numeric($data[$data_key]) && $data[$data_key] !== false && $rules['not_null'] === false) {
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'not_null');
       return false;
     } else {
       return true;
@@ -434,10 +434,10 @@ class Validation {
    */
   private function validate_alphabet(array $data, string $data_key, array $rules, string $message_key = NULL) : bool {
     if(isset($data[$data_key]) && !empty($data[$data_key]) && !ctype_alpha($data[$data_key]) && $rules['alphabet'] === true) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'alphabet');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'alphabet');
       return false;
     } else if(isset($data[$data_key]) && !empty($data[$data_key]) && ctype_alpha($data[$data_key]) && $rules['alphabet'] === false) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'alphabet');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'alphabet');
       return false;
     } else {
       return true;
@@ -455,10 +455,10 @@ class Validation {
    */
   private function validate_numeric(array $data, string $data_key, array $rules, string $message_key = NULL) : bool {
     if(isset($data[$data_key]) && !empty($data[$data_key]) && !is_numeric($data[$data_key]) && $rules['numeric'] === true) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'numeric');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'numeric');
       return false;
     } else if(isset($data[$data_key]) && !empty($data[$data_key]) && is_numeric($data[$data_key]) && $rules['numeric'] === false) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'numeric');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'numeric');
       return false;
     } else {
       return true;
@@ -476,10 +476,10 @@ class Validation {
    */
   private function validate_alphanumeric(array $data, string $data_key, array $rules, string $message_key = NULL) : bool {
     if(isset($data[$data_key]) && !empty($data[$data_key]) && !ctype_alnum($data[$data_key]) && $rules['alphanumeric'] === true) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'alphanumeric');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'alphanumeric');
       return false;
     } else if(isset($data[$data_key]) && !empty($data[$data_key]) && ctype_alnum($data[$data_key]) && $rules['alphanumeric'] === false) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'alphanumeric');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'alphanumeric');
       return false;
     } else {
       return true;
@@ -497,10 +497,10 @@ class Validation {
    */
   private function validate_lowercase(array $data, string $data_key, array $rules, string $message_key = NULL) : bool {
     if(isset($data[$data_key]) && !empty($data[$data_key]) && !ctype_lower($data[$data_key]) && $rules['lowercase'] === true) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'lowercase');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'lowercase');
       return false;
     } else if(isset($data[$data_key]) && !empty($data[$data_key]) && ctype_lower($data[$data_key]) && $rules['lowercase'] === false) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'lowercase');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'lowercase');
       return false;
     } else {
       return true;
@@ -518,10 +518,10 @@ class Validation {
    */
   private function validate_uppercase(array $data, string $data_key, array $rules, string $message_key = NULL) : bool {
     if(isset($data[$data_key]) && !empty($data[$data_key]) && !ctype_upper($data[$data_key]) && $rules['uppercase'] === true) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'uppercase');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'uppercase');
       return false;
     } else if(isset($data[$data_key]) && !empty($data[$data_key]) && ctype_upper($data[$data_key]) && $rules['uppercase'] === false) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'uppercase');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'uppercase');
       return false;
     } else {
       return true;
@@ -539,10 +539,10 @@ class Validation {
    */
   private function validate_string(array $data, string $data_key, array $rules, string $message_key = NULL) : bool {
     if(isset($data[$data_key]) && !empty($data[$data_key]) && !is_string($data[$data_key]) && $rules['string'] === true) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'string');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'string');
       return false;
     } else if(isset($data[$data_key]) && !empty($data[$data_key]) && is_string($data[$data_key]) && $rules['string'] === false) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'string');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'string');
       return false;
     } else {
       return true;
@@ -560,10 +560,10 @@ class Validation {
    */
   private function validate_integer(array $data, string $data_key, array $rules, string $message_key = NULL) : bool {
     if(isset($data[$data_key]) && !empty($data[$data_key]) && !is_int($data[$data_key]) && $rules['integer'] === true) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'integer');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'integer');
       return false;
     } else if(isset($data[$data_key]) && !empty($data[$data_key]) && is_int($data[$data_key]) && $rules['integer'] === false) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'integer');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'integer');
       return false;
     } else {
       return true;
@@ -581,10 +581,10 @@ class Validation {
    */
   private function validate_float(array $data, string $data_key, array $rules, string $message_key = NULL) : bool {
     if(isset($data[$data_key]) && !empty($data[$data_key]) && !is_float($data[$data_key]) && $rules['float'] === true) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'float');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'float');
       return false;
     } else if(isset($data[$data_key]) && !empty($data[$data_key]) && is_float($data[$data_key]) && $rules['float'] === false) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'float');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'float');
       return false;
     } else {
       return true;
@@ -602,10 +602,10 @@ class Validation {
    */
   private function validate_boolean(array $data, string $data_key, array $rules, string $message_key = NULL) : bool {
     if(isset($data[$data_key]) && !empty($data[$data_key]) && !is_bool($data[$data_key]) && $rules['boolean'] === true) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'boolean');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'boolean');
       return false;
     } else if(isset($data[$data_key]) && !empty($data[$data_key]) && is_bool($data[$data_key]) && $rules['boolean'] === false) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'boolean');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'boolean');
       return false;
     } else {
       return true;
@@ -623,10 +623,10 @@ class Validation {
    */
   private function validate_array(array $data, string $data_key, array $rules, string $message_key = NULL) : bool {
     if(isset($data[$data_key]) && !empty($data[$data_key]) && !is_array($data[$data_key]) && $rules['array'] === true) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'array');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'array');
       return false;
     } else if(isset($data[$data_key]) && !empty($data[$data_key]) && is_array($data[$data_key]) && $rules['array'] === false) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'array');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'array');
       return false;
     } else {
       return true;
@@ -644,10 +644,10 @@ class Validation {
    */
   private function validate_object(array $data, string $data_key, array $rules, string $message_key = NULL) : bool {
     if(isset($data[$data_key]) && !empty($data[$data_key]) && !is_object($data[$data_key]) && $rules['object'] === true) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'object');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'object');
       return false;
     } else if(isset($data[$data_key]) && !empty($data[$data_key]) && is_object($data[$data_key]) && $rules['object'] === false) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'object');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'object');
       return false;
     } else {
       return true;
@@ -665,10 +665,10 @@ class Validation {
    */
   private function validate_json(array $data, string $data_key, array $rules, string $message_key = NULL) : bool {
     if(isset($data[$data_key]) && !empty($data[$data_key]) && !(is_array($data[$data_key]) ? false : is_array(json_decode($data[$data_key], true))) && $rules['json'] === true) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'json');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'json');
       return false;
     } else if(isset($data[$data_key]) && !empty($data[$data_key]) && (is_array($data[$data_key]) ? false : is_array(json_decode($data[$data_key], true))) && $rules['json'] === false) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'json');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'json');
       return false;
     } else {
       return true;
@@ -686,7 +686,7 @@ class Validation {
    */
   private function validate_minlength(array $data, string $data_key, array $rules, string $message_key = NULL) : bool {
     if((isset($data[$data_key]) && !is_string($data[$data_key])) || (isset($data[$data_key]) && !empty($data[$data_key]) && !(strlen($data[$data_key]) >= $rules['minlength']))) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'minlength');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'minlength');
       return false;
     } else {
       return true;
@@ -704,7 +704,7 @@ class Validation {
    */
   private function validate_maxlength(array $data, string $data_key, array $rules, string $message_key = NULL) : bool {
     if((isset($data[$data_key]) && !is_string($data[$data_key])) || (isset($data[$data_key]) && !empty($data[$data_key]) && !(strlen($data[$data_key]) <= $rules['maxlength']))) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'maxlength');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'maxlength');
       return false;
     } else {
       return true;
@@ -722,7 +722,7 @@ class Validation {
    */
   private function validate_min(array $data, string $data_key, array $rules, string $message_key = NULL) : bool {
     if(isset($data[$data_key]) && !empty($data[$data_key]) && is_numeric($data[$data_key]) && !($data[$data_key] >= $rules['min'])) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'min');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'min');
       return false;
     } else {
       return true;
@@ -740,7 +740,7 @@ class Validation {
    */
   private function validate_max(array $data, string $data_key, array $rules, string $message_key = NULL) : bool {
     if(isset($data[$data_key]) && !empty($data[$data_key]) && is_numeric($data[$data_key]) && !($data[$data_key] <= $rules['max'])) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'max');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'max');
       return false;
     } else {
       return true;
@@ -758,10 +758,10 @@ class Validation {
    */
   private function validate_email(array $data, string $data_key, array $rules, string $message_key = NULL) : bool {
     if(isset($data[$data_key]) && !empty($data[$data_key]) && !filter_var($data[$data_key], FILTER_VALIDATE_EMAIL) && $rules['email'] === true) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'email');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'email');
       return false;
     } else if(isset($data[$data_key]) && !empty($data[$data_key]) && filter_var($data[$data_key], FILTER_VALIDATE_EMAIL) && $rules['email'] === false) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'email');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'email');
       return false;
     } else {
       return true;
@@ -782,19 +782,19 @@ class Validation {
     if(isset($_FILES[$data_key]['tmp_name']) && is_array($_FILES[$data_key]['tmp_name'])) {
       foreach($_FILES[$data_key]['tmp_name'] as $tmp_name) {
         if(isset($tmp_name) && !empty($tmp_name) && !is_uploaded_file($tmp_name) && $rules['file'] === true) {
-          $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'file');
+          $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'file');
           $is_valid = false;
         } else if(isset($tmp_name) && !empty($tmp_name) && is_uploaded_file($tmp_name) && $rules['file'] === false) {
-          $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'file');
+          $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'file');
           $is_valid = false;
         }
       }
     } else {
       if(isset($_FILES[$data_key]['tmp_name']) && !empty($_FILES[$data_key]['tmp_name']) && !is_uploaded_file($_FILES[$data_key]['tmp_name']) && $rules['file'] === true) {
-        $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'file');
+        $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'file');
         $is_valid = false;
       } else if(isset($_FILES[$data_key]['tmp_name']) && !empty($_FILES[$data_key]['tmp_name']) && is_uploaded_file($_FILES[$data_key]['tmp_name']) && $rules['file'] === false) {
-        $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'file');
+        $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'file');
         $is_valid = false;
       }
     }
@@ -815,13 +815,13 @@ class Validation {
     if(isset($_FILES[$data_key]['tmp_name']) && is_array($_FILES[$data_key]['tmp_name'])) {
       foreach($_FILES[$data_key]['tmp_name'] as $name) {
         if(isset($name) && !empty($name) && !(is_array($rules['file_mime_type']) ? in_array(strtolower(mime_content_type($name)), array_map('strtolower', $rules['file_mime_type'])) : is_string($rules['file_mime_type']) && strtolower(mime_content_type($name)) === strtolower($rules['file_mime_type']))) {
-          $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'file_mime_type');
+          $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'file_mime_type');
           $is_valid = false;
         }
       }
     } else {
       if(isset($_FILES[$data_key]['tmp_name']) && !empty($_FILES[$data_key]['tmp_name']) && !(is_array($rules['file_mime_type']) ? in_array(strtolower(mime_content_type($_FILES[$data_key]['tmp_name'])), array_map('strtolower', $rules['file_mime_type'])) : is_string($rules['file_mime_type']) && strtolower(mime_content_type($_FILES[$data_key]['tmp_name'])) === strtolower($rules['file_mime_type']))) {
-        $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'file_mime_type');
+        $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'file_mime_type');
         $is_valid = false;
       }
     }
@@ -842,13 +842,13 @@ class Validation {
     if(isset($_FILES[$data_key]['name']) && is_array($_FILES[$data_key]['name'])) {
       foreach($_FILES[$data_key]['name'] as $name) {
         if(isset($name) && !empty($name) && !(is_array($rules['file_extension']) ? in_array(strtolower(pathinfo($name, PATHINFO_EXTENSION)), array_map('strtolower', $rules['file_extension'])) : is_string($rules['file_extension']) && strtolower(pathinfo($name, PATHINFO_EXTENSION)) === strtolower($rules['file_extension']))) {
-          $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'file_extension');
+          $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'file_extension');
           $is_valid = false;
         }
       }
     } else {
       if(isset($_FILES[$data_key]['name']) && !empty($_FILES[$data_key]['name']) && !(is_array($rules['file_extension']) ? in_array(strtolower(pathinfo($_FILES[$data_key]['name'], PATHINFO_EXTENSION)), array_map('strtolower', $rules['file_extension'])) : is_string($rules['file_extension']) && strtolower(pathinfo($_FILES[$data_key]['name'], PATHINFO_EXTENSION)) === strtolower($rules['file_extension']))) {
-        $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'file_extension');
+        $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'file_extension');
         $is_valid = false;
       }
     }
@@ -869,13 +869,13 @@ class Validation {
     if(isset($_FILES[$data_key]['size']) && is_array($_FILES[$data_key]['size'])) {
       foreach($_FILES[$data_key]['size'] as $size) {
         if(isset($size) && !empty($size) && !($size >= $rules['min_file_size'])) {
-          $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'min_file_size');
+          $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'min_file_size');
           $is_valid = false;
         }
       }
     } else {
       if(isset($_FILES[$data_key]['size']) && !empty($_FILES[$data_key]['size']) && !($_FILES[$data_key]['size'] >= $rules['min_file_size'])) {
-        $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'min_file_size');
+        $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'min_file_size');
         $is_valid = false;
       }
     }
@@ -896,13 +896,13 @@ class Validation {
     if(isset($_FILES[$data_key]['size']) && is_array($_FILES[$data_key]['size'])) {
       foreach($_FILES[$data_key]['size'] as $size) {
         if(isset($size) && !empty($size) && !($size <= $rules['max_file_size'])) {
-          $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'max_file_size');
+          $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'max_file_size');
           $is_valid = false;
         }
       }
     } else {
       if(isset($_FILES[$data_key]['size']) && !empty($_FILES[$data_key]['size']) && !($_FILES[$data_key]['size'] <= $rules['max_file_size'])) {
-        $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'max_file_size');
+        $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'max_file_size');
         $is_valid = false;
       }
     }
@@ -920,7 +920,7 @@ class Validation {
    */
   private function validate_in(array $data, string $data_key, array $rules, string $message_key = NULL) : bool {
     if(isset($data[$data_key]) && !empty($data[$data_key]) && !(is_array($rules['in']) ? in_array($data[$data_key], $rules['in']) : $data[$data_key] == $rules['in'])) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'in');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'in');
       return false;
     } else {
       return true;
@@ -938,7 +938,7 @@ class Validation {
    */
   private function validate_not_in(array $data, string $data_key, array $rules, string $message_key = NULL) : bool {
     if(isset($data[$data_key]) && !empty($data[$data_key]) && (is_array($rules['not_in']) ? in_array($data[$data_key], $rules['not_in']) : $data[$data_key] === $rules['not_in'])) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'not_in');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'not_in');
       return false;
     } else {
       return true;
@@ -956,7 +956,7 @@ class Validation {
    */
   private function validate_equal(array $data, string $data_key, array $rules, string $message_key = NULL) : bool {
     if(isset($data[$data_key]) && !empty($data[$data_key]) && $data[$data_key] !== $rules['equal']) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'equal');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'equal');
       return false;
     } else {
       return true;
@@ -974,7 +974,7 @@ class Validation {
    */
   private function validate_not_equal(array $data, string $data_key, array $rules, string $message_key = NULL) : bool {
     if(isset($data[$data_key]) && !empty($data[$data_key]) && $data[$data_key] === $rules['not_equal']) {
-      $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'not_equal');
+      $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'not_equal');
       return false;
     } else {
       return true;
@@ -1000,7 +1000,7 @@ class Validation {
           } else if(function_exists($callback)) {
             $callback($data[$data_key]);
           } else {
-            $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'callback');
+            $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'callback');
             $is_valid = false;
           }
         }
@@ -1010,7 +1010,7 @@ class Validation {
         } else if(function_exists($rules['callback'])) {
           $rules['callback']($data[$data_key]);
         } else {
-          $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'callback');
+          $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'callback');
           $is_valid = false;
         }
       } else if(is_callable($rules['callback'])) {
@@ -1036,16 +1036,16 @@ class Validation {
         foreach($rules['rules'] as $custom_rule => $value) {
           if(is_callable($value)) {
             if($value($data[$data_key]) !== true) {
-              $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'rules', $custom_rule);
+              $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'rules', $custom_rule);
               $is_valid = false;
             }
           } else if(function_exists($value)) {
             if($value($data[$data_key]) !== true) {
-              $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'rules', $custom_rule);
+              $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'rules', $custom_rule);
               $is_valid = false;
             }
           } else if($value !== true) {
-            $this->set_error(($message_key === NULL? $data_key : $message_key), $rules, 'rules', $custom_rule);
+            $this->set_error(($message_key === NULL ? $data_key : $message_key), $rules, 'rules', $custom_rule);
             $is_valid = false;
           }
         }
