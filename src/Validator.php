@@ -77,7 +77,11 @@ class Validator {
         return trim($value);
       }, explode(',', $data_key));
       foreach($tmp_data_key as $data_key) {
-        $parsed_rules[$data_key] = $parsed_data_rules;
+        if(array_key_exists($data_key, $parsed_rules)) {
+          $parsed_rules[$data_key] = array_merge($parsed_rules[$data_key], $parsed_data_rules);
+        } else {
+          $parsed_rules[$data_key] = $parsed_data_rules;
+        }
       }
     }
     self::$rules = $parsed_rules;
@@ -110,7 +114,11 @@ class Validator {
         return trim($value);
       }, explode(',', $data_key));
       foreach($tmp_data_key as $data_key) {
-        $parsed_messages[$data_key] = $parsed_data_messages;
+        if(array_key_exists($data_key, $parsed_messages)) {
+          $parsed_messages[$data_key] = array_merge($parsed_messages[$data_key], $parsed_data_messages);
+        } else {
+          $parsed_messages[$data_key] = $parsed_data_messages;
+        }
       }
     }
     self::$messages = $parsed_messages;
