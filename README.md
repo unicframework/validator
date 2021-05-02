@@ -310,16 +310,11 @@ $errors = $validator->errors();
 ### Set Custom Rules
 
   We can set predefined/custom rules for data validation.
-  if custom rule return `true` that means data is valid and if it will return `false` that means data is invalid.
+  Custom rules take a callback function with one argument. If custom rule return `true` that means data is valid and if it will return `false` that means data is invalid.
 
 ```php
 // Set validation rules
 $validator = Validator::make([
-  'name' => [
-    'required' => true,
-    'not_null' => true,
-    'string' => true
-  ],
   'email' => [
     'required' => true,
     'not_null' => true,
@@ -335,6 +330,13 @@ $validator = Validator::make([
     },
     // Set your own custom rules
     'available' => is_available($value),
+  ]
+],
+[
+  // Set error messages for custom rules
+  'email' => [
+    'blocked' => 'this email address is blocked',
+    'available' => 'this email address is already registered',
   ]
 ]);
 ```
