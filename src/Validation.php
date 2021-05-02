@@ -10,6 +10,7 @@
  */
 
 namespace Validator;
+use Exception;
 
 class Validation {
   /**
@@ -74,8 +75,7 @@ class Validation {
     'in',
     'not_in',
     'equal',
-    'not_equal',
-    'rules'
+    'not_equal'
   ];
 
   /**
@@ -93,10 +93,39 @@ class Validation {
   private $invalid_data = [];
 
   function __construct(array $rules, array $messages) {
+    // Parse validation rules
+    $tmpRules = [];
+    foreach($rules as $key => $value) {
+      foreach($value as $rule => $val) {
+        //Check rule is valid or not
+        if(in_array($rule, $this->predefined_rules)) {
+          $tmpRules[$key][$rule] = $val;
+        } else {
+          $tmpRules[$key]['rules'][$rule] = $val;
+        }
+      }
+    }
     // Set data validation rules
-    $this->rules = $rules;
+    $this->rules = $tmpRules;
+
+    // Parse custom error messages
+    $tmpMessages = [];
+    foreach($messages as $key => $value) {
+      if(is_array($value)) {
+        foreach($value as $rule => $val) {
+          //Check messages is valid or not
+          if(in_array($rule, $this->predefined_rules)) {
+            $tmpMessages[$key][$rule] = $val;
+          } else {
+            $tmpMessages[$key]['rules'][$rule] = $val;
+          }
+        }
+      } else {
+        throw new Exception('Error: invalid validation error messages');
+      }
+    }
     // Set data validation messages
-    $this->messages = $messages;
+    $this->messages = $tmpMessages;
   }
 
   /**
@@ -155,13 +184,7 @@ class Validation {
     foreach($this->rules as $data_key => $rules) {
       foreach($rules as $rule => $value) {
         $rule = strtolower($rule);
-        //Check rule is valid or not
-        if(in_array($rule, $this->predefined_rules)) {
-          $func = "validate_".$rule;
-        } else {
-          $this->errors['error'] = 'Error : Invalid validation rules.';
-          return false;
-        }
+        $func = "validate_".$rule;
         // Check data key is array or not
         if(strpos($data_key, '.')) {
           $data_keys = explode('.', $data_key);
@@ -239,7 +262,7 @@ class Validation {
    * @param string $custom_rule
    * @return void
    */
-  private function set_error(string $data_key, array $rules, string $rule, $custom_rule=NULL) {
+  private function set_error(string $data_key, array $rules, string $rule, string $custom_rule=NULL) {
     //Default error messages
     $this->default_messages = [
       'required' => $data_key.' is required.',
@@ -325,12 +348,10 @@ class Validation {
 
     if(isset($this->messages[$data_key]) && is_array($this->messages[$data_key])) {
       //Set users custom error messages
-      if(isset($this->messages[$data_key][$rule])) {
-        if(is_array($this->messages[$data_key][$rule]) && isset($this->messages[$data_key][$rule][$custom_rule])) {
-          $this->errors[$data_key] = $this->messages[$data_key][$rule][$custom_rule];
-        } else {
-          $this->errors[$data_key] = $this->messages[$data_key][$rule];
-        }
+      if(isset($this->messages[$data_key][$rule]) && $custom_rule == NULL && $rule !== 'rules') {
+        $this->errors[$data_key] = $this->messages[$data_key][$rule];
+      } else if(isset($this->messages[$data_key][$rule]) && is_array($this->messages[$data_key][$rule]) && isset($this->messages[$data_key][$rule][$custom_rule]) && $rule === 'rules') {
+        $this->errors[$data_key] = $this->messages[$data_key][$rule][$custom_rule];
       } else {
         //Set default error messages
         if($rules[$rule] === true && is_array($this->default_messages[$rule]) && isset($this->default_messages[$rule]['true'])) {

@@ -11,6 +11,7 @@
 
 namespace Validator;
 use Validator\Validation;
+use Exception;
 
 class Validator {
   /**
