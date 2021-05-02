@@ -306,11 +306,11 @@ $errors = $validator->errors();
 | not_in         | array    | match data in given array. |
 | equal          | mixed    | it will match data with given data. |
 | not_equal      | mixed    | it will match data with given data. |
-| rules          | array    | set custom validation rules. custom rules are set of key value pairs, if any key has false value then it will throw an error. we can pass callback function in custom validation rules. function accept one parameter `value` and return true or false values. |
 
 ### Set Custom Rules
 
   We can set predefined/custom rules for data validation.
+  if custom rule return `true` that means data is valid and if it will return `false` that means data is invalid.
 
 ```php
 // Set validation rules
@@ -320,39 +320,21 @@ $validator = Validator::make([
     'not_null' => true,
     'string' => true
   ],
-  'gender' => [
-    'required' => true,
-    'not_null' => true,
-    'string' => true,
-    'in' => ['male', 'female', 'other']
-  ],
   'email' => [
     'required' => true,
     'not_null' => true,
     'email' => true,
-    'rules' => [
-      // Set your own custom rules
-      'blocked' => function($value) {
-        if($value == 'abc@gmail.com') {
-          // Email abc@gmail.com is blocked
-          return false;
-        } else {
-          return true;
-        }
-      },
-      'available' => is_available($value)
-    ]
-  ],
-  'password' => [
-    'required' => true,
-    'not_null' => true,
-    'minlength' => 6,
-    'maxlength' => 15
-  ],
-  'profile_image' => [
-    'file' => true,
-    'max_file_size' => 2000000,
-    'file_extension' => ['jpg', 'png']
+    // Set your own custom rules
+    'blocked' => function($value) {
+      if($value == 'abc@gmail.com') {
+        // Email abc@gmail.com is blocked
+        return false;
+      } else {
+        return true;
+      }
+    },
+    // Set your own custom rules
+    'available' => is_available($value),
   ]
 ]);
 ```
