@@ -270,6 +270,24 @@ if($validator->validate($data, true)) {
 $errors = $validator->errors();
 ```
 
+### Get Valid Data
+
+  We can get valid parsed data using `getValidData` method. the `getValidData` method return an array of valid data.
+
+```php
+// Get all valid data
+$errors = $validator->getValidData();
+```
+
+### Get Invalid Data
+
+  We can get invalid parsed data using `getInvalidData` method. the `getInvalidData` method return an array of invalid data.
+
+```php
+// Get all invalid data
+$errors = $validator->getInvalidData();
+```
+
 
 ### Set validation rules
 
