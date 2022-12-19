@@ -144,7 +144,7 @@ $validator = Validator::make([
 [
   'first_name,last_name' => 'required:Name is required|not_null:Name can not be null|string:Name should be in string',
   'email' => 'required:Email is required|not_null:Email can not be null|email:Please enter valid email address',
-  'gender' => 'required:Gender is required|not_null:Gender can not be null|in:Please select valid gender'
+  'gender' => 'required:Gender is required|not_null:Gender can not be null|in:Please select valid gender',
   'password' => 'required: Password is required|not_null:Password can not be null|minlength:Password length should be minimum 5 characters',
 ]);
 ```
